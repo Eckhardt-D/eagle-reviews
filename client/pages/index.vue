@@ -5,6 +5,7 @@
       <div class="container">
         <div class="row">
           <div class="col-6 mx-auto">
+            <i style="font-size: 25px;" class="fa fa-address-book"></i>
             <h1>BOOTSTRAP TEST</h1>
           </div>
         </div>
