@@ -1,5 +1,4 @@
 const pkg = require('./package')
-const webpack = require('webpack')
 
 module.exports = {
   mode: 'universal',
@@ -16,6 +15,10 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      { src: "https://code.jquery.com/jquery-3.3.1.min.js", integrity: "sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=", crossorigin: "anonymous"},
+      { src: "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" }
     ]
   },
 
@@ -35,7 +38,6 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    "~plugins/bootstrap.js"
   ],
 
   /*
@@ -57,12 +59,6 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    // vendor: ["jquery", "bootstrap"],
-    plugins: [
-      new webpack.ProvidePlugin({
-        $: "jquery"
-      })
-    ],
     /*
     ** You can extend webpack config here
     */
