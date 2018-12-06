@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const placeSchema = new mongoose.Schema({
   name: String,
+  category: [String],
+  averageStars: Number,
   owner: {
     id: String,
     username: String,
