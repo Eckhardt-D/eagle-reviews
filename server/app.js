@@ -1,10 +1,8 @@
 const express     = require('express');
 const cors        = require('cors');
 const bodyParser  = require('body-parser');
-
-require('./database');
-
-const Review  = require('./database/models/Review');
+const db          = require('./database');
+const Review      = require('./database/models/Review');
 
 
 const app = express();
@@ -14,8 +12,14 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.json({
-    msg: 'Hello!'
+    msg: 'Welcome!'
   })
+});
+
+app.get('/reviews', (req, res) => {
+  Review.find({}, (err, data) => {
+    res.json(data);
+  });
 })
 
 app.listen(process.env.PORT || 5000, () => 
