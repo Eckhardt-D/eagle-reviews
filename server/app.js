@@ -3,6 +3,7 @@ const cors        = require('cors');
 const bodyParser  = require('body-parser');
 const db          = require('./database');
 const Review      = require('./database/models/Review');
+const Place       = require('./database/models/Place');
 
 
 const app = express();
@@ -20,6 +21,12 @@ app.get('/reviews', (req, res) => {
   Review.find({}, (err, data) => {
     res.json(data);
   });
+});
+
+app.get('/places', (req, res) => {
+  Place.find({}, (err, data) => {
+    res.json(data);
+  })
 })
 
 app.listen(process.env.PORT || 5000, () => 

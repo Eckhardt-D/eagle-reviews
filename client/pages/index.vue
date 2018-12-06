@@ -45,11 +45,13 @@ export default {
     TheNav
   },
   mounted() {
-    this.$store.dispatch('getReviews');
+    this.$store.dispatch('getReviews')
+    this.$store.dispatch('getPlaces')
   },
   computed: {
     ...mapGetters([
-      'reviews'
+      'reviews',
+      'places'
     ])
   }
 }

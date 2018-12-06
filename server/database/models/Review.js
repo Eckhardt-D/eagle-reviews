@@ -5,10 +5,7 @@ const reviewSchema = new mongoose.Schema({
   content: String,
   place: String,
   images: [String],
-  stars: Number,
-  promo: Boolean,
-  rank: Number,
-  shares: Number
+  stars: Number
 });
 
 let Review = mongoose.model('Review', reviewSchema);
