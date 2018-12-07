@@ -31,7 +31,10 @@
         </div>
       </div>
       <div style="min-height: 80px;" class="row category-section px-3 bg-light border align-items-center mt-3">
-        <h3 class="text-uppercase mb-1">Places around Namibia</h3>
+        <h3 class="text-uppercase mb-1">Places around You</h3>
+      </div>
+      <div style="min-height: 80px;" class="row category-section px-3 bg-light border align-items-center mt-3">
+        <h3 class="text-uppercase mb-1">Places in Namibia</h3>
       </div>
     </div>
   </div>
@@ -47,7 +50,7 @@ export default {
     TheNav,
     TheCategorySelector
   },
-  mounted() {
+  created() {
     this.$store.dispatch('getReviews')
     this.$store.dispatch('getPlaces')
   },
