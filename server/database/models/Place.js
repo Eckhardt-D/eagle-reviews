@@ -5,10 +5,11 @@ const placeSchema = new mongoose.Schema({
   category: [String],
   averageStars: Number,
   owner: {
-    id: String,
-    username: String,
+    googleId: String,
+    firstname: String,
     email: String,
-    reported: {type: Boolean, default: false}
+    reported: {type: Boolean, default: false},
+    profileImage: String
   },
   created: Date,
   description: String,
@@ -20,17 +21,7 @@ const placeSchema = new mongoose.Schema({
     email: String,
     emergency: String
   },
-  reviews: [{
-    author: {
-      id: String,
-      username: String,
-      email: String,
-      reported: {type: Boolean, default: false}
-    },
-    content: String,
-    images: [String],
-    stars: Number
-  }],
+  reviews: [Object],
   shares: Number,
   favourites: Number
 });

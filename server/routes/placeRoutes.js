@@ -67,10 +67,10 @@ router.post('/places', (req, res) => {
     name: place.name,
     category: place.category,
     averageStars: 0,
-    owner: place.owner,
-    created: place.date,
+    owner: place.owner, // User auth token/id
+    created: place.date, // Client side date
     description: place.description,
-    images: place.images,
+    images: place.images, // Firebase logic client-side
     address: place.address,
     contactDetails: {
       website: place.website,
@@ -78,7 +78,7 @@ router.post('/places', (req, res) => {
       email: place.email,
       emergency: place.emergency
     },
-    reviews: [''],
+    reviews: [{}],
     shares: 0,
     favourites: 0
     }
@@ -94,10 +94,10 @@ router.post('/places', (req, res) => {
  */
 router.put('/places/:id', (req, res) => {
   let placeId = req.params.id;
-
-  Place.findByIdAndUpdate(placeId, (err, data) => {
+  console.log('HERE')
+  Place.findByIdAndUpdate(placeId, req.body, (err, data) => {
     if(!err) {
-      res.json(data)
+      res.status(200).send('OK');
     } else {
       res.send('No such document');
     }
@@ -107,12 +107,12 @@ router.put('/places/:id', (req, res) => {
 /**
  * @description DELETE a place by it's ID (AUTH)
  */
-router.delete('/places/id', (req, res) => {
+router.delete('/places/:id', (req, res) => {
   let placeId = req.params.id;
 
   Place.findByIdAndDelete(placeId, (err, data) => {
     if(!err) {
-      res.json(data)
+      res.status(200).send('OK');
     } else {
       res.send('No such document');
     }

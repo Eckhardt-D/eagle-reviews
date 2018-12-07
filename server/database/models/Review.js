@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
   author: String,
+  created: Date,
   content: String,
   place: String,
   images: [String],
