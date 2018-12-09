@@ -15,9 +15,14 @@ passport.use(new GoogleStrategy({
     googleId: profile.id,
     firstname: profile.name.givenName,
     reported: false,
-    profileImage: profile.photos[0].value
-  }, {upsert: true}, (err, user) => done(err, user))
-}
+    profileImage: profile.photos[0].value,
+    owns: [''],
+    reviews: [{}],
+    favourites: [{}],
+    email: 'Mycoolmail@gmail.co',
+    reported: false,
+    }, {upsert: true}, (err, user) => done(err, user))
+  }
 ));
 
 module.exports = passport;

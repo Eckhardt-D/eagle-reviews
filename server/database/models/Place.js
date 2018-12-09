@@ -1,25 +1,25 @@
 const mongoose = require('mongoose');
 
 const placeSchema = new mongoose.Schema({
-  name: String,
-  category: [String],
+  name: {type: String, required: 'Required: name'},
+  category: [{type: String, required: 'Required: category'}],
   averageStars: Number,
   owner: {
-    googleId: String,
-    firstname: String,
-    email: String,
+    googleId: {type: String, required: 'Required: user'},
+    firstname: {type: String, required: 'Required: user'},
+    email: {type: String, required: 'Required: user'},
     reported: {type: Boolean, default: false},
-    profileImage: String
+    profileImage: {type: String, required: 'Required: image'}
   },
   created: Date,
-  description: String,
+  description: {type: String, required: 'Required: description'},
   images: [String],
-  address: String,
+  address: {type: String, required: 'Required: contact details'},
   contactDetails: {
-    website: String,
-    number: String,
-    email: String,
-    emergency: String
+    website: {type: String, required: 'Required: contact details'},
+    number: {type: String, required: 'Required: contact details'},
+    email: {type: String, required: 'Required: contact details'},
+    emergency: {type: String, required: 'Required: contact details'}
   },
   reviews: [Object],
   shares: Number,

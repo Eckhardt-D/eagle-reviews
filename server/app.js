@@ -20,7 +20,7 @@ app.use(bodyParser.json());
  * ********/
 
 //  Test rout
-app.get('/', /* passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }),*/ (req, res) => {
+app.get('/', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }), (req, res) => {
   res.json({
     msg: 'Welcome!'
   });

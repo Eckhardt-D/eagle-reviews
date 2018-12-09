@@ -1,45 +1,18 @@
-const express = require('express');
-const router  = express.Router();
-const Place   = require('../database/models/Place');
+const express      = require('express');
+const DbController = require('../controllers/dbController');
+const router       = express.Router();
+const Place        = require('../database/models/Place');
+
+const db = new DbController();
 
 
 /**
  * @description Gets the places with pagination queries
  */
 router.get('/places', (req, res) => {
-  let queryAmount;
-  let startNumber;
-  let amountOfDocs;
-
-  // Count documents in collection
-  Place.count({}, function (err, count) {
-    if(!err) {
-      amountOfDocs = count;
-    }
-  });
-
-  // Handle query (pagination)
-  if(req.query.limit) {
-    queryAmount = parseInt(req.query.limit);
-  } else {
-    queryAmount = amountOfDocs;
-  }
-
-  if(req.query.start) {
-    startNumber = parseInt(req.query.start);
-  } else {
-    startNumber = 1;
-  }
-  
-  Place.find({}, null, {skip: startNumber - 1, limit: queryAmount}, (err, data) => {
-    let remaining = amountOfDocs - ((startNumber - 1) + queryAmount)
-
-    // Add remaining amount to response for client
-    data.push({
-      remaining: remaining < 0 ? 0 : remaining
-    });
-    res.json(data);
-  })
+  db.paginate(req)
+  .then(data => res.json(data))
+  .catch(err => res.status(500).send('INTERNALL ERR'));
 });
 
 /**
@@ -54,7 +27,7 @@ router.get('/places/:id', (req, res) => {
     } else {
       res.send('No such document');
     }
-  })
+  });
 });
 
 /**
@@ -73,10 +46,10 @@ router.post('/places', (req, res) => {
     images: place.images, // Firebase logic client-side
     address: place.address,
     contactDetails: {
-      website: place.website,
-      number: place.phone,
-      email: place.email,
-      emergency: place.emergency
+      website: place.contactDetails.website,
+      number: place.contactDetails.number,
+      email: place.contactDetails.email,
+      emergency: place.contactDetails.emergency
     },
     reviews: [{}],
     shares: 0,
@@ -94,7 +67,7 @@ router.post('/places', (req, res) => {
  */
 router.put('/places/:id', (req, res) => {
   let placeId = req.params.id;
-  console.log('HERE')
+
   Place.findByIdAndUpdate(placeId, req.body, (err, data) => {
     if(!err) {
       res.status(200).send('OK');
