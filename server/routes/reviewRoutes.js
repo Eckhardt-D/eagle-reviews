@@ -72,7 +72,7 @@ router.post('/reviews/share', (req, res) => {
  * @description Update a review (AUTH)
  */
 router.put('/reviews/:id', (req, res) => {
-  db.editPlaceReview(req.body)
+  db.editPlaceReview(req.body, req.params.id)
   .then(() => res.status(200).send('OK'))
   .catch(() => res.status(500).send('INTERNAL ERR'));
 })

@@ -4,10 +4,13 @@ const User   = require('../database/models/User');
 
 /**
  * Class that helps clean up Database actions in routes
- * @param {Object} req - The request object
- * @returns {Object} - The Places requested 
  */
 class DbController {
+  /**
+   * 
+   * @param {Object} req - The request object
+   * @returns {Object} - The Places requested 
+   */
   paginate(req) {
     return new Promise((resolve, reject) => {
       let queryAmount;
@@ -55,7 +58,7 @@ class DbController {
       // Find the user and place
       Promise.all([
         User.find({googleId: review.author}),
-        Place.findById(review.place),
+        Place.findById(review.place)
       ])
       .then(([userObject, placeObject]) => {
         review.author = userObject[0];
@@ -159,6 +162,20 @@ class DbController {
     });
   }
 
+  updateUserOwns(userId, placeId) {
+    return new Promise((resolve, reject) => {
+      Promise.resolve(User.findOne({googleId: userId}))
+      .then(data => {
+        let userOwns = data.owns;
+        userOwns.push(placeId);
+
+        Promise.resolve(User.findOneAndUpdate({googleId: userId}, {owns: userOwns}))
+        .then(() => resolve(200))
+        .catch(e => reject(e));
+      })
+    });
+  }
+
   deleteFavourite(place, author) {
     return new Promise((resolve, reject) => {
       const favouriteData = {place, author}
@@ -183,22 +200,19 @@ class DbController {
     });
   }
 
-  editPlaceReview(review) {
+  editPlaceReview(review, id) {
     return new Promise((resolve, reject) => {
+      console.log(id)
+      Promise.resolve(Review.findByIdAndUpdate(id, review))
+      .then(res => {
+        console.log(res)
+        review.id = id;
 
-      if(review.images.length < 0) {
-        review.images = [''];
-      }
-      console.log(review)
-      resolve(true)
-    //   Promise.resolve(Review.findByIdAndUpdate(review._id, review))
-    //   .then(() => {
-    //     review.id = review._id;
-    //     this.updateUserAndPlaceReviews(review)
-    //     .then(success => resolve(200))
-    //     .catch(err => reject(err));
-    //   })
-    //   .catch(err => reject(err));
+        this.updateUserAndPlaceReviews(review)
+        .then(success => resolve(200))
+        .catch(err => reject(err));
+      })
+      .catch(err => reject(err));
     });
   }
 }

@@ -57,8 +57,12 @@ router.post('/places', (req, res) => {
     }
 
     Place.create(placeDetails, (err, place) => {
-      if(err) return res.send(err);
-      res.status(200).json(place);
+      if(err) return res.status(500).send('INTERNAL ERR');
+      db.updateUserOwns(placeDetails.owner.googleId.toString(), place.id.toString())
+      .then(() => {
+        res.status(200).json(place);
+      })
+      .catch(e => res.status(500).send(e));
     })
 });
 

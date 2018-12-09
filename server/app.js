@@ -32,6 +32,9 @@ app.use(require('./routes/placeRoutes'));
 // Reviews routes
 app.use(require('./routes/reviewRoutes'));
 
+// User routes
+app.use(require('./routes/userRoutes'));
+
 /**SERVER START */
 app.listen(process.env.PORT || 5000, () => 
   process.env.PORT ? console.log('Listening on port '+ process.env.PORT) : console.log('Listening on http://localhost:5000'));
