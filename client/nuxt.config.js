@@ -1,8 +1,7 @@
 const pkg = require('./package')
-
+require('dotenv').config()
 module.exports = {
-  mode: 'universal',
-
+  mode: 'spa',
   /*
   ** Headers of the page
   */
@@ -17,7 +16,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      { src: "https://code.jquery.com/jquery-3.3.1.min.js", integrity: "sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=", crossorigin: "anonymous"},
+      { src: "https://code.jquery.com/jquery-3.3.1.min.js"},
       { src: "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" }
     ]
   },
@@ -46,7 +45,8 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
-    '@nuxtjs/font-awesome'
+    '@nuxtjs/font-awesome',
+    '@nuxtjs/dotenv'
   ],
   /*
   ** Axios module configuration
@@ -54,7 +54,9 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
-
+  router: {
+    middleware: 'router-auth'
+  },
   /*
   ** Build configuration
   */

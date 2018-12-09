@@ -13,7 +13,7 @@
             :src="place.images[0]">
             <div class="card-body">
               <h4><span class="text-success">#{{index + 1}}</span> {{place.name}}</h4>
-              <h5 class="card-title"><i v-if="place.reviews && place.reviews[1]" v-for="(stars, i) in place.reviews[1].stars" :key="i" class="fa fa-star text-warning"></i></h5>
+              <!-- <h5 class="card-title"><i v-if="place.reviews && place.reviews[1]" v-for="(stars, i) in place.reviews[1].stars" :key="i" class="fa fa-star text-warning"></i></h5> -->
               <p class="card-text">{{place.description}}</p>
               <a href="#" class="btn btn-outline-primary">Check This Place Out</a>
             </div>
@@ -54,8 +54,6 @@ export default {
     this.$store.dispatch('getPlaces')
   },
   mounted() {
-    // this.$store.dispatch('authenticateUser')
-    console.log(this.places)
   },
   computed: {
     ...mapGetters([

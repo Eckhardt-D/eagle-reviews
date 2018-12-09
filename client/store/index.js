@@ -1,9 +1,9 @@
 import Vuex from 'vuex'
-import {auth, googleAuth} from '@/plugins/firebase'
+import {auth, googleAuth} from '@/services/fireInit'
 
 const state = {
   places: '',
-  currentUser: {}
+  currentUser: null
 }
 
 const getters = {
@@ -29,6 +29,7 @@ const actions = {
     .catch(err => console.log(err))
   },
   authenticateUser({commit}) {
+    console.log(auth.currentUser);
     if(!auth.currentUser) {
       auth.signInWithRedirect(googleAuth).then(function(result) {
         var user = result.user;
@@ -37,6 +38,7 @@ const actions = {
         commit('SET_USER', {});
       });
     }
+    console.log(auth.currentUser);
   }
 }
 
