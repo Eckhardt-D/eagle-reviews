@@ -1,18 +1,21 @@
-import firebase from 'firebase'
+// This is `services/fireinit.js`
+require('dotenv').config()
 
-// Initialize Firebase
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
+
 var config = {
-    apiKey: "AIzaSyA1IYAvok3g1x1eplsqj5I1RqeqVLfEOhU",
-    authDomain: "arcane-climber-193216.firebaseapp.com",
-    databaseURL: "https://arcane-climber-193216.firebaseio.com",
-    projectId: "arcane-climber-193216",
-    storageBucket: "",
-    messagingSenderId: "107469167325"
-  };
-if(!firebase.apps.length) {  
-  firebase.initializeApp(config);
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  databaseURL: process.env.databaseURL,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId
 }
 
+!firebase.apps.length ? firebase.initializeApp(config) : ''
 export const googleAuth = new firebase.auth.GoogleAuthProvider()
 export const auth = firebase.auth()
+export const DB = firebase.database()
 export default firebase
