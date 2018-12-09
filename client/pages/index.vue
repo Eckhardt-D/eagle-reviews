@@ -7,15 +7,15 @@
         <h3 class="text-uppercase mb-1">Top 10 Places</h3>
       </div>
       <div class="row justify-content-center mt-3">
-        <div class="col-6 mt-3" v-for="(review, index) in reviews" :key="index">
+        <div class="col-6 mt-3" v-for="(place, index) in places" :key="index">
           <div class="card mx-auto" style="width: 80%;">
-            <img class="card-img-top" 
-            :src="review.images[0]">
+            <img v-if="place.images" class="card-img-top" 
+            :src="place.images[0]">
             <div class="card-body">
-              <h4><span class="text-success">#{{index + 1}}</span> {{review.place}}</h4>
-              <h5 class="card-title"><i v-for="(stars, i) in review.stars" :key="i" class="fa fa-star text-warning"></i></h5>
-              <p class="card-text">{{review.content}}</p>
-              <a href="#" class="btn btn-outline-primary">Check Reviews</a>
+              <h4><span class="text-success">#{{index + 1}}</span> {{place.name}}</h4>
+              <h5 class="card-title"><i v-if="place.reviews && place.reviews[1]" v-for="(stars, i) in place.reviews[1].stars" :key="i" class="fa fa-star text-warning"></i></h5>
+              <p class="card-text">{{place.description}}</p>
+              <a href="#" class="btn btn-outline-primary">Check This Place Out</a>
             </div>
           </div>
         </div>
@@ -51,12 +51,14 @@ export default {
     TheCategorySelector
   },
   created() {
-    this.$store.dispatch('getReviews')
     this.$store.dispatch('getPlaces')
+  },
+  mounted() {
+    // this.$store.dispatch('authenticateUser')
+    console.log(this.places)
   },
   computed: {
     ...mapGetters([
-      'reviews',
       'places'
     ])
   },

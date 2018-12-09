@@ -1,39 +1,42 @@
 import Vuex from 'vuex'
+import {auth, googleAuth} from '@/plugins/firebase'
 
 const state = {
-  reviews: '',
-  places: ''
+  places: '',
+  currentUser: {}
 }
 
 const getters = {
-  reviews: state => state.reviews,
-  places: state => state.places
+  places: state => state.places,
+  currentUser: state => state.currentUser
 }
 
 const mutations = {
-  SET_REVIEWS: (state, payload) => {
-    state.reviews = payload
-  },
   SET_PLACES: (state, payload) => {
     state.places = payload
+  },
+  SET_USER: (state, payload) => {
+    state.currentUser = payload
   }
 }
 
 const actions = {
-  getReviews({commit}) {
-    this.$axios.$get('http://localhost:5000/reviews')
-    .then(data => {
-      commit('SET_REVIEWS', data)
-    })
-    .catch(err => console.log(err))
-  },
   getPlaces({commit}) {
     this.$axios.$get('http://localhost:5000/places')
     .then(data => {
-      console.log(data)
       commit('SET_PLACES', data)
     })
     .catch(err => console.log(err))
+  },
+  authenticateUser({commit}) {
+    if(!auth.currentUser) {
+      auth.signInWithRedirect(googleAuth).then(function(result) {
+        var user = result.user;
+        commit('SET_USER', user);
+      }).catch(function(error) {
+        commit('SET_USER', {});
+      });
+    }
   }
 }
 
