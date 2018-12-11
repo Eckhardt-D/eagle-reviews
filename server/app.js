@@ -2,15 +2,8 @@ const express     = require('express');
 const cors        = require('cors');
 const bodyParser  = require('body-parser');
 const db          = require('./database');
-const passport    = require('./authentication'); // Bring in Google auth strategy
 
 const app = express(); // Init app
-
-// Authentication init and middleware
-app.use(passport.initialize());
-app.use(passport.session());
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user, done) => done(null, user));
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,7 +13,7 @@ app.use(bodyParser.json());
  * ********/
 
 //  Test rout
-app.get('/', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }), (req, res) => {
+app.get('/', (req, res) => {
   res.json({
     msg: 'Welcome!'
   });

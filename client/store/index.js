@@ -28,7 +28,7 @@ const actions = {
     })
     .catch(err => console.log(err))
   },
-  authenticateUser({commit}) {
+  authenticateUser({commit, dispatch}) {
     if(!auth.currentUser) {
       auth.signInWithRedirect(googleAuth).then(function(result) {
         var user = result.user;
@@ -39,7 +39,26 @@ const actions = {
       });
     } else {
       console.log(auth.currentUser)
+      dispatch('saveUserToDb', auth.currentUser)
     }
+  },
+  saveUserToDb(ctx, user) {
+    return new Promise((resolve, reject) => {
+      let userDetails = {
+        googleId: user.uid,
+        firstname: user.displayName,
+        owns: [''],
+        reviews: [{}],
+        favourites: [{}],
+        email: user.email,
+        reported: false,
+        profileImage: user.photoURL
+      }
+
+      this.$axios.$post('http://localhost:5000/users', userDetails)
+      .then(res => console.log(res))
+      .catch(e => console.log(e))
+    })
   }
 }
 

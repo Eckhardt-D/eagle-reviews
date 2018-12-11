@@ -1,28 +1,26 @@
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
-const User = require('../database/models/User');
+const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.C_KEY,
-  clientSecret: process.env.C_SECRET,
-  callbackURL: "http://localhost:5000"
-},
-(token, tokenSecret, profile, done) => {
-  User.findOneAndUpdate({googleId: profile.id}, { 
-    googleId: profile.id,
-    firstname: profile.name.givenName,
-    reported: false,
-    profileImage: profile.photos[0].value,
-    owns: [''],
-    reviews: [{}],
-    favourites: [{}],
-    email: 'Mycoolmail@gmail.co',
-    reported: false,
-    }, {upsert: true}, (err, user) => done(err, user))
-  }
-));
+const createUserToken = profile => {
+  makeToken(profile);
+}
 
-module.exports = passport;
+function makeToken (user) {
+  return new Promise((resolve, reject) => {
+    const tokenData = {id: user.googleId, firstname: user.firstname, email: user.email};
+    const token = jwt.sign(tokenData, process.env.token_secret);
+
+    if(token !== null && typeof token !== 'undefined') {
+      return resolve({
+        user: user,
+        token: token
+      })
+    } else {
+      return reject('Error: Could not create token from user');
+    }
+  })
+} 
+
+
+module.exports = createUserToken;

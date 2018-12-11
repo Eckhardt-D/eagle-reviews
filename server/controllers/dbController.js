@@ -215,6 +215,23 @@ class DbController {
       .catch(err => reject(err));
     });
   }
+
+  checkOrCreateUser(user) {
+    return new Promise((resolve, reject) => {
+      let id = user.googleId;
+
+      User.findOne({googleId: id})
+      .then(res => {
+        if(res === null) {
+          User.create(user)
+          .then(result => resolve(result))
+        } else {
+          resolve(res)
+        }
+      })
+      .catch(e => reject(e));
+    })
+  }
 }
 
 module.exports = DbController;

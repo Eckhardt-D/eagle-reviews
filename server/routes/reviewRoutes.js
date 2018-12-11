@@ -1,8 +1,7 @@
 const router       = require('express').Router();
 const DbController = require('../controllers/dbController');
 const Review       = require('../database/models/Review');
-const Place        = require('../database/models/Place');
-const User         = require('../database/models/User');
+const verifyToken  = require('../middleware/index');
 
 const db = new DbController();
 
@@ -71,7 +70,7 @@ router.post('/reviews/share', (req, res) => {
 /**
  * @description Update a review (AUTH)
  */
-router.put('/reviews/:id', (req, res) => {
+router.put('/reviews/:id', verifyToken, (req, res) => {
   db.editPlaceReview(req.body, req.params.id)
   .then(() => res.status(200).send('OK'))
   .catch(() => res.status(500).send('INTERNAL ERR'));
