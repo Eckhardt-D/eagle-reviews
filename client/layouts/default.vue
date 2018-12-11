@@ -4,6 +4,15 @@
   </div>
 </template>
 
+<script>
+import authMixin from '@/mixins/authMixin'
+
+export default {
+  mixins: [authMixin]
+}
+</script>
+
+
 <style>
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',

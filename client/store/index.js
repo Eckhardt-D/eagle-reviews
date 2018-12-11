@@ -29,16 +29,17 @@ const actions = {
     .catch(err => console.log(err))
   },
   authenticateUser({commit}) {
-    console.log(auth.currentUser);
     if(!auth.currentUser) {
       auth.signInWithRedirect(googleAuth).then(function(result) {
         var user = result.user;
         commit('SET_USER', user);
+        this.$router.push('/');
       }).catch(function(error) {
         commit('SET_USER', {});
       });
+    } else {
+      console.log(auth.currentUser)
     }
-    console.log(auth.currentUser);
   }
 }
 
